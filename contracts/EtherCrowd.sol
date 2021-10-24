@@ -11,15 +11,12 @@ contract EtherCrowd {
 
     uint public fee; //TODO: implement change fe function
 
-
     constructor(uint _fee) {
         currentId = 0;
         admin = msg.sender;
         fee = _fee;
     }
 
-
- 
     struct Crowdsale{
         bool initialized;
 
@@ -42,10 +39,6 @@ contract EtherCrowd {
         bool isActive; // TODO ENUM: ISACTIVE; WILL BE ACTIVE; IS ENDED
 
         address[] contributors;
-
-
-
-
     }
 
     
@@ -112,8 +105,16 @@ contract EtherCrowd {
 
     }
 
+    /** 
+    Function fund, fund a crowd,
+    take a crowdid in parameter
+    */
+    function fund(uint _crowdId) payable external {
+        require(idToCrowdsale[_crowdId].initialized, "Crowds does not exist."); 
 
-
+        addressToListOfCrowdsales[msg.sender].push(_crowdId);
+        idToBalanceOfContributors[_crowdId][msg.sender] += msg.value;//tester ça -> mapping est private -> creer un getter
+    }
 
 
 
