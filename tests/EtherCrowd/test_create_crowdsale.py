@@ -4,6 +4,7 @@ import pytest
 
 #@pytest.mark.parametrize('user', accounts[0:4])
 def test_crowdsale_happy_path(ethercrowd, accounts):
+    # Maybe define expected and result for more visibility
     goal_amount = 10
     title = "Test crowdsale"
     slogan = "Test slogan"

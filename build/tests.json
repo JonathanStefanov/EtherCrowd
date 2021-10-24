@@ -1,6 +1,6 @@
 {
   "contracts": {
-    "EtherCrowd": "e49ca33cb641bd8c715c7517b38bc08e0178de09"
+    "EtherCrowd": "d928abb8956eee167d7e3e7175a4b3f4b285d360"
   },
   "tests": {
     "tests/EtherCrowd/test_create_crowdsale.py": {
@@ -9,7 +9,7 @@
         "EtherCrowd"
       ],
       "results": ".",
-      "sha1": "e7c2f72a8d35328d4839c90d52d3b17af09f869e",
+      "sha1": "ac05e2908ccb169824ed7199130f65c02ed2510e",
       "txhash": []
     }
   },

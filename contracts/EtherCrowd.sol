@@ -5,11 +5,12 @@ contract EtherCrowd {
     uint private currentId;
     address admin;
 
-    uint[] private crowdsalesIds;
     mapping(uint => Crowdsale) idToCrowdsale;
+    mapping(uint => mapping( address => uint)) idToBalanceOfContributors; // crowdsale id,  user address to amount invested by user address TODO: balance of function
+    mapping( address => uint[] ) addressToListOfCrowdsales; // user address to list of crowdsales ids he is invested in
+
     uint public fee; //TODO: implement change fe function
 
-    mapping(address => mapping(uint => uint)) balanceOf; // balance of address, crowdsale id to amount invested
 
     constructor(uint _fee) {
         currentId = 0;
@@ -18,8 +19,10 @@ contract EtherCrowd {
     }
 
 
-
+ 
     struct Crowdsale{
+        bool initialized;
+
         address owner;
         uint id;
 
@@ -36,9 +39,10 @@ contract EtherCrowd {
 
         uint startDate; // TODO: implement
         uint endDate;
-        bool isActive;
+        bool isActive; // TODO ENUM: ISACTIVE; WILL BE ACTIVE; IS ENDED
 
         address[] contributors;
+
 
 
 
@@ -63,14 +67,14 @@ contract EtherCrowd {
         // Payment to list on EtherCrowd 
         // Person has to send the exact fee with the function call, otherwise the transaction will be reverted
         if(msg.value != fee){
-            revert();
+            revert("Incorrect value");
         }
 
 
-        address[] memory _contributors;
+        address[] memory _contributors; // creating a empty array
 
-        crowdsalesIds.push(currentId); // pushing the crowdsale into the crowsales list
         idToCrowdsale[currentId] = Crowdsale(
+                    true, // Crowdsale is initialized
                     msg.sender,
                     currentId, // is it necessary to repead the id here?
                     _title,
@@ -79,11 +83,11 @@ contract EtherCrowd {
                     _websiteUrl,
                     _thumbnailUrl,
                     _videoUrl,
-                    0,
+                    0, // current amount 0 
                     _goalAmount,
                     _startDate,
                     _endDate,
-                    true,
+                    true, // isActive set to true by default, will not be the case later
                     _contributors
                 );
 
@@ -94,30 +98,15 @@ contract EtherCrowd {
 
     function getCrowdsale(uint _id) external view returns(
         address owner
-        /*string memory title,
-        string memory slogan,
-        string memory websiteUrl,
-        string memory thumbnailUrl*/
             )
         {
-        require(idToCrowdsale[_id].id == _id, "No crowdsale with this id");
+        require(idToCrowdsale[_id].initialized == true, "No crowdsale with this id");
         Crowdsale memory crowdsale = idToCrowdsale[_id];
 
-        /*address owner = crowdsale.owner;
-        string calldata title = crowdsale.title;
-        string calldata slogan = crowdsale.title;
-        string calldata websiteUrl = crowdsale.websiteUrl;
-        string calldata thumbnailUrl = crowdsale.thumbnailUrl;
-        uint currentAmount = crowdsale.currentAmount;
-        uint goalAmount = crowdsale.goalAmount;*/
+        //TODO: add all crowdsale arguments
 
         return(
             crowdsale.owner
-            /*crowdsale.slogan,
-            crowdsale.title,
-            crowdsale.websiteUrl,
-            crowdsale.thumbnailUrl*/
-
             );
 
 

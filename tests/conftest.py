@@ -1,6 +1,8 @@
 from brownie import accounts, config, EtherCrowd
 import pytest
 
+# CONSTANTS TODO make it a separate file
+FEE = 1
 
 @pytest.fixture(scope='module')
 def owner():
@@ -9,7 +11,7 @@ def owner():
 @pytest.fixture(scope='module')
 def ethercrowd(owner):
     yield EtherCrowd.deploy(
-        1,
+        FEE,
         {'from': owner},
     )
 
