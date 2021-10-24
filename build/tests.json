@@ -1,0 +1,17 @@
+{
+  "contracts": {
+    "EtherCrowd": "e49ca33cb641bd8c715c7517b38bc08e0178de09"
+  },
+  "tests": {
+    "tests/EtherCrowd/test_create_crowdsale.py": {
+      "coverage": false,
+      "isolated": [
+        "EtherCrowd"
+      ],
+      "results": ".",
+      "sha1": "e7c2f72a8d35328d4839c90d52d3b17af09f869e",
+      "txhash": []
+    }
+  },
+  "tx": {}
+}
