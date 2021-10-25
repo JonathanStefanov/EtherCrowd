@@ -32,12 +32,13 @@ def setup():
 # @pytest.mark.parametrize('user', accounts[0:4])
 def test_fund_existing_crowdsale(ethercrowd, accounts):
     # Init
-    expected #= #montant qui va etre mit
+    crowdId = 0
+    expected = 10 #montant qui va etre mit
 
     # Call
     fund(0)
+    result = ethercrowd.getFundRaise(crowdId) #montant qui a ete mit
 
-    result #= #montant qui a ete mit
     # Assert
     assert expected == result
 
@@ -45,12 +46,27 @@ def test_fund_existing_crowdsale(ethercrowd, accounts):
 # @pytest.mark.parametrize('user', accounts[0:4])
 def test_fund_non_existing_crowdsale(ethercrowd, accounts):
     # Init
-    expected #= #montant qui va etre mit
+    crowdId = -404
+    expected = 0 #= #montant qui va etre mit
 
     # Call
-    fund(-404)
+    fund(crowdId)
 
     resultInvestedCrowdsaleList # verifie si la crowd a été ajouté dans ses crowds investit
-    result #= #montant qui a ete mit
+    result = ethercrowd.getFundRaise(crowdId)#= #montant qui a ete mit
     # Assert
-    assert expected != result
+    assert expected == result
+    
+    # @pytest.mark.parametrize('user', accounts[0:4])
+def test_fund_existing_crowdsale_no_money(ethercrowd, accounts):
+    # Init
+    crowdId = 0
+    expected = 0 #= #montant qui va etre mit
+
+    # Call
+    fund(crowdId)
+
+    resultInvestedCrowdsaleList # verifie si la crowd a été ajouté dans ses crowds investit
+    result = ethercrowd.getFundRaise(crowdId)#= #montant qui a ete mit
+    # Assert
+    assert expected == result

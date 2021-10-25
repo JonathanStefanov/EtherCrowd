@@ -105,6 +105,9 @@ contract EtherCrowd {
 
     }
 
+
+    //Ayoub 
+    
     /** 
     Function fund, fund a crowd,
     take a crowdid in parameter
@@ -118,7 +121,23 @@ contract EtherCrowd {
         idToBalanceOfContributors[_crowdId][msg.sender] += msg.value;//tester ça -> mapping est private -> creer un getter
     }
 
+    
+    function getFundRaise(uint _crowdId) public view returns (uint balance){
+        return idToBalanceOfContributors[_crowdId][msg.sender];
+    }
+    
+    // get du sender ou du contributeur en paramètre -> faille de sécurité ?
 
+    function getFundRaiseBy(address _contributor, uint _crowdId) internal view returns (uint balance){
+        return idToBalanceOfContributors[_crowdId][_contributor];
+    }
+
+    /**
+        donne la liste des crowds ou le contributeur a investit
+     */
+    //function getInvestedCrowds(address _contributor) internal view returns (uint[] listOfCrowdsales){
+    //    return addressToListOfCrowdsales[_contributor];
+    //}
 
 
 }
