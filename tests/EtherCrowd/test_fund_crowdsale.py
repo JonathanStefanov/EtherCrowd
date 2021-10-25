@@ -50,6 +50,7 @@ def test_fund_non_existing_crowdsale(ethercrowd, accounts):
     # Call
     fund(-404)
 
+    resultInvestedCrowdsaleList # verifie si la crowd a été ajouté dans ses crowds investit
     result #= #montant qui a ete mit
     # Assert
     assert expected != result
