@@ -1,6 +1,6 @@
 {
   "contracts": {
-    "EtherCrowd": "d928abb8956eee167d7e3e7175a4b3f4b285d360"
+    "EtherCrowd": "a6c9f31c80e69136131d3bc651198d505ec9a655"
   },
   "tests": {
     "tests/EtherCrowd/test_create_crowdsale.py": {
@@ -11,7 +11,49 @@
       "results": ".",
       "sha1": "0a111764cd2b8062083f096df119dcdda528debb",
       "txhash": []
+    },
+    "tests/EtherCrowd/test_fund_crowdsale.py": {
+      "coverage": false,
+      "isolated": [
+        "EtherCrowd"
+      ],
+      "results": "...",
+      "sha1": "dabb06f14fa64b83795147d7f446ab9403cbacef",
+      "txhash": [
+        "59de88ac205fed2025a2b242f473900b05e4f69b",
+        "d55cbb7b584bc321a9da660ea078ec2b416537d3"
+      ]
     }
   },
-  "tx": {}
+  "tx": {
+    "59de88ac205fed2025a2b242f473900b05e4f69b": {
+      "EtherCrowd": {
+        "0": [
+          [
+            8
+          ],
+          [
+            17
+          ],
+          []
+        ]
+      }
+    },
+    "d55cbb7b584bc321a9da660ea078ec2b416537d3": {
+      "EtherCrowd": {
+        "0": [
+          [
+            8,
+            9
+          ],
+          [
+            18
+          ],
+          [
+            17
+          ]
+        ]
+      }
+    }
+  }
 }

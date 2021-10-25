@@ -110,32 +110,27 @@ contract EtherCrowd {
     
     /** 
     Function fund, fund a crowd,
-    take a crowdid in parameter
+    takes a crowdid in parameter
     */
     function fund(uint _crowdId) payable external {
-        require(msg.value > 0);
+        require(msg.value > 0, "No value sent.");
         require(idToCrowdsale[_crowdId].initialized, "Crowd does not exist."); 
         require(idToCrowdsale[_crowdId].isActive, "Crowd is not active");
 
         addressToListOfCrowdsales[msg.sender].push(_crowdId);
         idToBalanceOfContributors[_crowdId][msg.sender] += msg.value;//tester ça -> mapping est private -> creer un getter
     }
-
     
-    function getFundRaise(uint _crowdId) public view returns (uint balance){
+    function getInvestedFunds(uint _crowdId) public view returns (uint balance) {
+        require(idToCrowdsale[_crowdId].initialized, "Crowd does not exist.");
+        //check also not started
         return idToBalanceOfContributors[_crowdId][msg.sender];
-    }
-    
-    // get du sender ou du contributeur en paramètre -> faille de sécurité ?
-
-    function getFundRaiseBy(address _contributor, uint _crowdId) internal view returns (uint balance){
-        return idToBalanceOfContributors[_crowdId][_contributor];
     }
 
     /**
         donne la liste des crowds ou le contributeur a investit
      */
-    //function getInvestedCrowds(address _contributor) internal view returns (uint[] listOfCrowdsales){
+    //function getInvestedCrowds(address _contributor) internal view returns (uint[] memory listOfCrowdsales){
     //    return addressToListOfCrowdsales[_contributor];
     //}
 
