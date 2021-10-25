@@ -12,7 +12,6 @@ def test_crowdsale_happy_path(ethercrowd, accounts):
     video_url = website_url
     thumbnail_url = website_url
     description = "Test description"
-    start_date = 10
     end_date = 20
 
     # Creating the crowdsale
@@ -24,7 +23,6 @@ def test_crowdsale_happy_path(ethercrowd, accounts):
         video_url,
         thumbnail_url,
         description,
-        start_date,
         end_date,
          {'from': accounts[0], "value": 1}) # TODO: global test fee variable
 
