@@ -110,7 +110,9 @@ contract EtherCrowd {
     take a crowdid in parameter
     */
     function fund(uint _crowdId) payable external {
-        require(idToCrowdsale[_crowdId].initialized, "Crowds does not exist."); 
+        require(msg.value > 0);
+        require(idToCrowdsale[_crowdId].initialized, "Crowd does not exist."); 
+        require(idToCrowdsale[_crowdId].isActive, "Crowd is not active");
 
         addressToListOfCrowdsales[msg.sender].push(_crowdId);
         idToBalanceOfContributors[_crowdId][msg.sender] += msg.value;//tester ça -> mapping est private -> creer un getter
