@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 import "../interfaces/KeeperCompatibleInterface.sol";
 
-contract EtherCrowd {
+contract EtherCrowd is KeeperCompatibleInterface {
 
     uint private currentId;
     address admin;
@@ -21,6 +21,7 @@ contract EtherCrowd {
         admin = msg.sender;
         fee = _fee;
         checkInterval = _checkInterval;
+        lastCheck = 0;
     }
 
 
@@ -120,15 +121,14 @@ contract EtherCrowd {
 
     // ChainLink UpKeep part, maybe putting it in another file?
 
-    function checkUpkeep(bytes calldata /* checkData */) external view returns (bool upkeepNeeded /*, bytes memory performData */) {
+    function checkUpkeep(bytes calldata checkData) external override view returns (bool upkeepNeeded , bytes memory performData) {
+        // This function will be executed Off chain by the Keeper node, this is why the computation is done here in order to save on gas fees
         upkeepNeeded = (block.timestamp - lastCheck) > checkInterval;
-
-        return upkeepNeeded;
-
+        return (upkeepNeeded, performData = checkData);
         // We don't use the checkData in this example. The checkData is defined when the Upkeep was registered.
     }
 
-    function performUpkeep(bytes calldata /* performData */) external {
+    function performUpkeep(bytes calldata  performData ) override external {
         lastCheck = block.timestamp;
         checkCrowdsales();
 
