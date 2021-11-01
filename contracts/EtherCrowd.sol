@@ -121,14 +121,13 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
     // ChainLink UpKeep part, maybe putting it in another file?
 
-    function checkUpkeep(bytes calldata checkData) external override view returns (bool upkeepNeeded , bytes memory performData) {
+    function checkUpkeep(bytes calldata /*checkData*/) external override view returns (bool upkeepNeeded, bytes memory /*performData*/) {
         // This function will be executed Off chain by the Keeper node, this is why the computation is done here in order to save on gas fees
         upkeepNeeded = (block.timestamp - lastCheck) > checkInterval;
-        return (upkeepNeeded, performData = checkData);
         // We don't use the checkData in this example. The checkData is defined when the Upkeep was registered.
     }
 
-    function performUpkeep(bytes calldata  performData ) override external {
+    function performUpkeep(bytes calldata  /*performData*/ ) override external {
         lastCheck = block.timestamp;
         checkCrowdsales();
 
@@ -137,7 +136,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
     function checkCrowdsales() private {
         for(uint i=0; i < currentId; i++){
-            // loopin through all the crowdsales
+            // looping through all the crowdsales
             Crowdsale memory crowdsale = idToCrowdsale[i];
             if(block.timestamp >= crowdsale.endDate){
                 // It means the crowdsale has ended
@@ -156,13 +155,18 @@ contract EtherCrowd is KeeperCompatibleInterface {
         }
         else{
             // refunding the investors
+            refund(_crowdsale);
+        }
+
+    }
+
+    function refund(Crowdsale memory _crowdsale) private {
             for (uint i=0; i< _crowdsale.contributors.length ; i++) {
                 address contributor = _crowdsale.contributors[i];
                 uint refundAmount = idToBalanceOfContributors[_crowdsale.id][contributor];
 
                 payable(contributor).transfer(refundAmount);
             }
-        }
 
     }
 
