@@ -2,7 +2,7 @@ pragma solidity ^0.8.0;
 import "../interfaces/KeeperCompatibleInterface.sol";
 
 contract EtherCrowd is KeeperCompatibleInterface {
-    uint256 private currentId;
+    uint256 public nbOfProjects;
     address admin;
 
     uint256 public checkInterval;
@@ -20,7 +20,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     uint256 public fee; //TODO: implement change fe function
 
     constructor(uint256 _fee, uint256 _checkInterval) {
-        currentId = 0;
+        nbOfProjects = 0;
         admin = msg.sender;
         fee = _fee;
         checkInterval = _checkInterval;
@@ -58,8 +58,8 @@ contract EtherCrowd is KeeperCompatibleInterface {
         //  no need to specify start date, it is the time at which the user calls the function
         uint256 _endDate
     ) external payable {
-        require(_endDate > 0, "End date has to be after start date");
-        //require(idToCrowdsale[currentId].id != 0, "Crowdsale id already exists"); // if two crowdsales are created at the same time and thus get the same id
+        require(_endDate > 0, "End date has to be after start date.");
+        //require(idToCrowdsale[nbOfProjects].id != 0, "Crowdsale id already exists"); // if two crowdsales are created at the same time and thus get the same id
 
         // Payment to list on EtherCrowd
         // Person has to send the exact fee with the function call, otherwise the transaction will be reverted
@@ -69,10 +69,10 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
         address[] memory _contributors; // creating a empty array
 
-        idToProject[currentId] = Project(
+        idToProject[nbOfProjects] = Project(
             true, // Crowdsale is initialized
             msg.sender,
-            currentId, // is it necessary to repead the id here?
+            nbOfProjects, // is it necessary to repead the id here?
             _title,
             _slogan,
             _description,
@@ -87,14 +87,14 @@ contract EtherCrowd is KeeperCompatibleInterface {
             _contributors
         );
 
-        currentId++; // incrementing the current id
+        nbOfProjects++; // incrementing the current id
 
         // maybe returning the id of the crowdsale?
     }
 
 
     modifier projectExist(uint256 _id) { 
-        require(idToProject[_id].initialized == true, "No project with this id"); 
+        require(idToProject[_id].initialized == true, "Project does not exist."); 
         _; 
     }
 
@@ -132,7 +132,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     }
 
     function checkProjects() private {
-        for (uint256 i = 0; i < currentId; i++) {
+        for (uint256 i = 0; i < nbOfProjects; i++) {
             // looping through all the crowdsales
             Project memory project = idToProject[i];
             if (block.timestamp >= project.endDate) {
