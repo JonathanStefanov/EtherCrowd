@@ -162,10 +162,10 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
     function refund(Crowdsale memory _crowdsale) private {
             for (uint i=0; i< _crowdsale.contributors.length ; i++) {
-                address contributor = _crowdsale.contributors[i];
-                uint refundAmount = idToBalanceOfContributors[_crowdsale.id][contributor];
+                address contributorAddress = _crowdsale.contributors[i];
+                uint refundAmount = idToBalanceOfContributors[_crowdsale.id][contributorAddress];
 
-                payable(contributor).transfer(refundAmount);
+                payable(contributorAddress).transfer(refundAmount);
             }
 
     }
