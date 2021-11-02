@@ -118,21 +118,11 @@ contract EtherCrowd {
         require(idToCrowdsale[_crowdId].isActive, "Crowd is not active");
 
         addressToListOfCrowdsales[msg.sender].push(_crowdId);
-        idToBalanceOfContributors[_crowdId][msg.sender] += msg.value;//tester ça -> mapping est private -> creer un getter
+        idToBalanceOfContributors[_crowdId][msg.sender] += msg.value;
     }
     
     function getInvestedFunds(uint _crowdId) public view returns (uint balance) {
         require(idToCrowdsale[_crowdId].initialized, "Crowd does not exist.");
-        //check also not started
         return idToBalanceOfContributors[_crowdId][msg.sender];
     }
-
-    /**
-        donne la liste des crowds ou le contributeur a investit
-     */
-    //function getInvestedCrowds(address _contributor) internal view returns (uint[] memory listOfCrowdsales){
-    //    return addressToListOfCrowdsales[_contributor];
-    //}
-
-
 }
