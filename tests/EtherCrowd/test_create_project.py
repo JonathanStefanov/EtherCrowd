@@ -3,10 +3,10 @@ from brownie import accounts
 import pytest
 
 
-def test_crowdsale_happy_path(ethercrowd, accounts):
+def test_project_happy_path(ethercrowd, accounts):
     # Maybe define expected and result for more visibility
     goal_amount = 10
-    title = "Test crowdsale"
+    title = "Test project"
     slogan = "Test slogan"
     website_url = "https://ethereum.org"
     video_url = website_url
@@ -14,7 +14,7 @@ def test_crowdsale_happy_path(ethercrowd, accounts):
     description = "Test description"
     end_date = 120
 
-    ethercrowd.createCrowdsale(
+    ethercrowd.createProject(
         goal_amount,
         title,
         slogan,
@@ -27,7 +27,7 @@ def test_crowdsale_happy_path(ethercrowd, accounts):
 
     
     # Getting the crowdsale
-    assert accounts[0] == ethercrowd.getCrowdsale(0)
+    assert accounts[0] == ethercrowd.getProject(0)
     
     
 
