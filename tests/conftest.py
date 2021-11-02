@@ -3,6 +3,7 @@ import pytest
 
 # CONSTANTS TODO make it a separate file
 FEE = 1
+CHECK_INTERVAL = 86400 # nbr of seconds in a day
 
 @pytest.fixture(scope='module')
 def owner():
@@ -12,6 +13,7 @@ def owner():
 def ethercrowd(owner):
     yield EtherCrowd.deploy(
         FEE,
+        CHECK_INTERVAL,
         {'from': owner},
     )
 
