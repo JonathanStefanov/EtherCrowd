@@ -27,6 +27,15 @@
         "6f8d80baf1458293b91e17b509ed9c2f392d4fa2"
       ]
     },
+    "tests/EtherCrowd/test_get_project.py": {
+      "coverage": false,
+      "isolated": [
+        "EtherCrowd"
+      ],
+      "results": "..",
+      "sha1": "24435049cef328bcb5d368809dc5a918feb2311c",
+      "txhash": []
+    },
     "tests/EtherCrowd/test_trigger_upkeep.py": {
       "coverage": false,
       "isolated": [

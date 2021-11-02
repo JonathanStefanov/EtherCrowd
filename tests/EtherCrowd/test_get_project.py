@@ -23,3 +23,36 @@ def setup(fn_isolation, ethercrowd, accounts):
         description,
         end_date,
          {'from': accounts[0], "value": 1}) # TODO: global test fee variable
+
+
+def test_get_existing_project(ethercrowd, accounts):
+     # Init
+    projectId = 0
+    expected = True
+
+    project = None
+
+    # Call
+    project = ethercrowd.getProject(projectId)
+
+    result = project != None
+
+    # Assert
+    assert expected == result
+
+
+def test_get_non_existing_project(ethercrowd, accounts):
+     # Init
+    projectId = 404
+    expected = False
+
+    project = None
+
+    # Call
+    with reverts("Project does not exist."):
+        project = ethercrowd.getProject(projectId)
+
+    result = project != None
+
+    # Assert
+    assert expected == result
