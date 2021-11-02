@@ -58,6 +58,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
         //  no need to specify start date, it is the time at which the user calls the function
         uint256 _endDate
     ) external payable {
+        require(_goalAmount > 0, "Goal amount must be greater than zero.");
         require(_endDate > 0, "End date has to be after start date.");
         //require(idToCrowdsale[nbOfProjects].id != 0, "Crowdsale id already exists"); // if two crowdsales are created at the same time and thus get the same id
 
