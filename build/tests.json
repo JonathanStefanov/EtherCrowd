@@ -1,0 +1,26 @@
+{
+  "contracts": {
+    "EtherCrowd": "a5eaaf5017d888f1e0d00762e955beaf6e427138"
+  },
+  "tests": {
+    "tests/EtherCrowd/test_create_crowdsale.py": {
+      "coverage": false,
+      "isolated": [
+        "EtherCrowd"
+      ],
+      "results": ".",
+      "sha1": "a66202ae08e73c4307cd0daf61e75b17021d79c5",
+      "txhash": []
+    },
+    "tests/EtherCrowd/test_trigger_upkeep.py": {
+      "coverage": false,
+      "isolated": [
+        "EtherCrowd"
+      ],
+      "results": ".",
+      "sha1": "c64d985d6f890c908b8f775c80aaa9e6e161f6f4",
+      "txhash": []
+    }
+  },
+  "tx": {}
+}

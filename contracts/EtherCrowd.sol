@@ -24,8 +24,6 @@ contract EtherCrowd is KeeperCompatibleInterface {
         lastCheck = 0;
     }
 
-
- 
     struct Crowdsale{
         bool initialized;
 
@@ -50,7 +48,6 @@ contract EtherCrowd is KeeperCompatibleInterface {
         bool isActive; // TODO ENUM: ISACTIVE; WILL BE ACTIVE; IS ENDED
 
         address[] contributors;
-
     }
 
     
@@ -172,4 +169,23 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
 
 
+    //Ayoub 
+    
+    /** 
+    Function fund, fund a crowd,
+    takes a crowdid in parameter
+    */
+    function fund(uint _crowdId) payable external {
+        require(msg.value > 0, "No value sent.");
+        require(idToCrowdsale[_crowdId].initialized, "Crowd does not exist."); 
+        require(idToCrowdsale[_crowdId].isActive, "Crowd is not active");
+
+        addressToListOfCrowdsales[msg.sender].push(_crowdId);
+        idToBalanceOfContributors[_crowdId][msg.sender] += msg.value;
+    }
+    
+    function getInvestedFunds(uint _crowdId) public view returns (uint balance) {
+        require(idToCrowdsale[_crowdId].initialized, "Crowd does not exist.");
+        return idToBalanceOfContributors[_crowdId][msg.sender];
+    }
 }
