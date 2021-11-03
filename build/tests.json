@@ -1,6 +1,6 @@
 {
   "contracts": {
-    "EtherCrowd": "52faadf3c488fca216b59888d70e14145acde21f"
+    "EtherCrowd": "6139de436bc5c3480b0899bb448ec6d8129a5414"
   },
   "tests": {
     "tests/EtherCrowd/test_create_project.py": {
@@ -8,9 +8,12 @@
       "isolated": [
         "EtherCrowd"
       ],
-      "results": ".",
-      "sha1": "d4991d8dfd4da2663383ffc9c90d834abb18cfb4",
-      "txhash": []
+      "results": "...",
+      "sha1": "a745da4775ba1e55588572755533a893276eef18",
+      "txhash": [
+        "a8245794eab64d456e1a27fe5209eea4fb90ef2e",
+        "ed87420cfa96709b0462ea31fd08bd60c9d745eb"
+      ]
     },
     "tests/EtherCrowd/test_fund_project.py": {
       "coverage": false,
@@ -18,11 +21,20 @@
         "EtherCrowd"
       ],
       "results": "...",
-      "sha1": "ba86855b0ddd43fb3c44b595c01e15308f471fab",
+      "sha1": "fc42cfa1bc54938ad4890b62b5e0b2b57f2fbac4",
       "txhash": [
-        "30e0e002c0569004f19f54275279265b43a22800",
+        "05389169002801504184969034bff35f647feeef",
         "6f8d80baf1458293b91e17b509ed9c2f392d4fa2"
       ]
+    },
+    "tests/EtherCrowd/test_get_project.py": {
+      "coverage": false,
+      "isolated": [
+        "EtherCrowd"
+      ],
+      "results": "...",
+      "sha1": "97e9d7aa129f409690991acbd94aadf3b88dde22",
+      "txhash": []
     },
     "tests/EtherCrowd/test_trigger_upkeep.py": {
       "coverage": false,
@@ -30,23 +42,23 @@
         "EtherCrowd"
       ],
       "results": ".",
-      "sha1": "c64d985d6f890c908b8f775c80aaa9e6e161f6f4",
+      "sha1": "939136b9980b271eb6fae6e93ea31c2e9b9d0689",
       "txhash": []
     }
   },
   "tx": {
-    "30e0e002c0569004f19f54275279265b43a22800": {
+    "05389169002801504184969034bff35f647feeef": {
       "EtherCrowd": {
         "0": [
           [
-            9,
-            10
+            10,
+            11
           ],
           [
-            26
+            29
           ],
           [
-            25
+            28
           ]
         ]
       }
@@ -55,10 +67,39 @@
       "EtherCrowd": {
         "0": [
           [
-            9
+            10
+          ],
+          [
+            28
+          ],
+          []
+        ]
+      }
+    },
+    "a8245794eab64d456e1a27fe5209eea4fb90ef2e": {
+      "EtherCrowd": {
+        "0": [
+          [
+            0,
+            1
           ],
           [
             25
+          ],
+          [
+            24
+          ]
+        ]
+      }
+    },
+    "ed87420cfa96709b0462ea31fd08bd60c9d745eb": {
+      "EtherCrowd": {
+        "0": [
+          [
+            0
+          ],
+          [
+            24
           ],
           []
         ]
