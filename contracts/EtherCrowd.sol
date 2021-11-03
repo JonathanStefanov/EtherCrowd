@@ -105,6 +105,19 @@ contract EtherCrowd is KeeperCompatibleInterface {
         return (project);
     }
 
+    /**
+    function getProjects(), gets all projects not_started, active or ended. 
+    //TODO Maybe return only active and not started project.
+    */
+    function getProjects() external view returns (Project[] memory) {
+        Project[] memory projects = new Project[](nbOfProjects);
+
+        for(uint256 i = 0; i < nbOfProjects; i++){
+            projects[i] = idToProject[i];
+        }
+        return projects;
+    }
+
     // ChainLink UpKeep part, maybe putting it in another file?
 
     function checkUpkeep(
