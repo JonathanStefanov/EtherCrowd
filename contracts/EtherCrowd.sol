@@ -189,11 +189,24 @@ contract EtherCrowd is KeeperCompatibleInterface {
             // refunding the investors
             refund(_project);
         }
+        idToProject[_project.id].isActive == false;
+    }
+
+
+    /**
+    si le projet est actif -> je rembourse puis seulement je passe isActive de true a false.
+    */
+    modifier projectActive(uint _id){
+        require(
+            idToProject[_id].isActive == true,//TODO remove this line and uncomment next line when Jona will finish implement project status.
+            //idToProject[_id].status == ACTIVE,
+            "Project must be active."
+        );
+        _;
     }
 
     //TODO vider la balance du contributeurs après qu'il a été remboursé.
-    //Ajoute require project est actif
-    function refund(Project memory _project) private {
+    function refund(Project memory _project) private projectActive(_project.id) {
         for (uint i = 0; i < _project.contributors.length; i++) {
 
             // get a contributor

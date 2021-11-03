@@ -32,8 +32,8 @@
       "isolated": [
         "EtherCrowd"
       ],
-      "results": "...",
-      "sha1": "97e9d7aa129f409690991acbd94aadf3b88dde22",
+      "results": "FFF",
+      "sha1": "c633499d15a0da5f37f6a5ac413d4ba573cfa424",
       "txhash": []
     },
     "tests/EtherCrowd/test_trigger_upkeep.py": {
