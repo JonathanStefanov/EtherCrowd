@@ -93,7 +93,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
         // maybe returning the id of the crowdsale?
     }
 
-    modifier projectExist(uint256 _id) {
+    modifier projectExist(uint _id) {
         require(
             idToProject[_id].initialized == true,
             "Project does not exist."
@@ -106,7 +106,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
      * @param _id The id of the project.
      * @return project The project.
      */
-    function getProject(uint256 _id) external view projectExist(_id) returns (Project memory) {
+    function getProject(uint _id) external view projectExist(_id) returns (Project memory) {
         Project memory project = idToProject[_id];
 
         return (project);
@@ -121,7 +121,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     function getProjects() external view returns (Project[] memory) {
         Project[] memory projects = new Project[](nbOfProjects);
 
-        for (uint256 i = 0; i < nbOfProjects; i++) {
+        for (uint i = 0; i < nbOfProjects; i++) {
             projects[i] = idToProject[i];
         }
         return projects;
