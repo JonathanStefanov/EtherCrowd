@@ -189,6 +189,11 @@ contract EtherCrowd is KeeperCompatibleInterface {
             // refunding the investors
             refund(_project);
         }
+
+        // TODO should I set currentAmount to 0 or freeze the project to keep track to the amount invested
+        // TODO maybe add a new attribute raisedAmount -> if we do so we have to update this attribute and set to null the other one when project ended
+        //_project.currentAmount = 0;
+
         idToProject[_project.id].isActive == false;
     }
 
