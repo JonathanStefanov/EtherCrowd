@@ -1,6 +1,6 @@
 {
   "contracts": {
-    "EtherCrowd": "6139de436bc5c3480b0899bb448ec6d8129a5414"
+    "EtherCrowd": "d75d7c1b784974944dcd8700ecd2374e593036ef"
   },
   "tests": {
     "tests/EtherCrowd/test_create_project.py": {
@@ -9,7 +9,7 @@
         "EtherCrowd"
       ],
       "results": "...",
-      "sha1": "a745da4775ba1e55588572755533a893276eef18",
+      "sha1": "d6ad5369ca406de77ebe00440c1a626300c9e2ef",
       "txhash": [
         "a8245794eab64d456e1a27fe5209eea4fb90ef2e",
         "ed87420cfa96709b0462ea31fd08bd60c9d745eb"
@@ -21,7 +21,7 @@
         "EtherCrowd"
       ],
       "results": "...",
-      "sha1": "fc42cfa1bc54938ad4890b62b5e0b2b57f2fbac4",
+      "sha1": "ba86855b0ddd43fb3c44b595c01e15308f471fab",
       "txhash": [
         "05389169002801504184969034bff35f647feeef",
         "6f8d80baf1458293b91e17b509ed9c2f392d4fa2"
@@ -33,7 +33,7 @@
         "EtherCrowd"
       ],
       "results": "...",
-      "sha1": "97e9d7aa129f409690991acbd94aadf3b88dde22",
+      "sha1": "68d72b68c8ed149a9f09d437895962510863057c",
       "txhash": []
     },
     "tests/EtherCrowd/test_trigger_upkeep.py": {
@@ -42,7 +42,7 @@
         "EtherCrowd"
       ],
       "results": ".",
-      "sha1": "939136b9980b271eb6fae6e93ea31c2e9b9d0689",
+      "sha1": "c64d985d6f890c908b8f775c80aaa9e6e161f6f4",
       "txhash": []
     }
   },
