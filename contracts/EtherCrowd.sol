@@ -136,7 +136,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     modifier projectExpired(uint256 _id) {
         require(
             idToProject[_id].endDate <= block.timestamp,
-            "Project is not yet due."
+            "Project is not yet expired."
         );
         _;
     }
@@ -230,7 +230,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     }
 
     function refund(Project memory _project)
-        private
+        public
         projectExist(_project.id)
         projectActive(_project.id)
         projectExpired(_project.id)
