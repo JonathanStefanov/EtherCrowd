@@ -26,6 +26,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
         checkInterval = _checkInterval;
         lastCheck = 0;
     }
+    enum Status { NOT_ACTIVE, ACTIVE, ENDED }
 
     struct Project {
         bool initialized;
@@ -43,7 +44,11 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
         uint startDate; // TODO: implement
         uint endDate;
+<<<<<<< HEAD
         bool isActive; // TODO ENUM: ISACTIVE; WILL BE ACTIVE; IS ENDED
+=======
+        Status status;
+>>>>>>> e357144386d74aa201bec71ec3e3102693c8fd87
         address[] contributors;
     }
 
@@ -84,7 +89,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
             _goalAmount,
             block.timestamp, // start date
             block.timestamp + _endDate,
-            true, // isActive set to true by default, will not be the case later
+            Status.ACTIVE, // Project is active by default, later implementation will make possible an activation at a later date
             _contributors
         );
 
@@ -195,7 +200,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     function fund(uint _projectId) external payable {
         require(msg.value > 0, "No value sent.");
         require(idToProject[_projectId].initialized, "Project does not exist.");
-        require(idToProject[_projectId].isActive, "Project is not active");
+        require(idToProject[_projectId].status == Status.ACTIVE, "Project is not active");
 
         addressToListOfProjects[msg.sender].push(_projectId);
         idToBalanceOfContributors[_projectId][msg.sender] += msg.value;
