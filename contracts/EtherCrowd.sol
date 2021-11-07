@@ -265,6 +265,8 @@ contract EtherCrowd is KeeperCompatibleInterface {
         idToBalanceOfContributors[_projectId][msg.sender] += msg.value;
     }
 
+    // Contributor getters
+
     function getInvestedFunds(uint _projectId)
         public
         view
@@ -274,8 +276,21 @@ contract EtherCrowd is KeeperCompatibleInterface {
         return idToBalanceOfContributors[_projectId][msg.sender];
     }
 
-    function getProjectFunds(uint _projectId) public view projectExist(_projectId){
-        Project memory project = idToProject[i];
+
+    function getFundedProject() external view returns (uint[] memory) {
+        return addressToListOfProjects[msg.sender];
+    }
+
+
+    // Project getters
+
+    function getProjectFunds(uint _projectId) public view projectExist(_projectId) returns(uint) {
+        Project memory project = idToProject[_projectId];
         return project.currentAmount;
+    }
+
+    function getProjectContributors(uint _projectId) public view projectExist(_projectId) returns(address[] memory){
+        Project memory project = idToProject[_projectId];
+        return project.contributors;
     }
 }
