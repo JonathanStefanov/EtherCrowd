@@ -199,7 +199,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     }
 
     function checkProjects() private {
-        for (uint256 i = 0; i < nbOfProjects; i++) {
+        for (uint i = 0; i < nbOfProjects; i++) {
             Project memory project = idToProject[i];
 
             // Project ended
@@ -225,7 +225,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
             refund(_project);
         }
 
-        // End the project 
+        // End the project
         _project.status = Status.ENDED;
     }
 
@@ -235,10 +235,10 @@ contract EtherCrowd is KeeperCompatibleInterface {
         projectActive(_project.id)
         projectExpired(_project.id)
     {
-        for (uint256 i = 0; i < _project.contributors.length; i++) {
+        for (uint i = 0; i < _project.contributors.length; i++) {
             // Refund
             address contributorAddress = _project.contributors[i];
-            uint256 refundAmount = idToBalanceOfContributors[_project.id][
+            uint refundAmount = idToBalanceOfContributors[_project.id][
                 contributorAddress
             ];
             payable(contributorAddress).transfer(refundAmount);
