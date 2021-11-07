@@ -44,11 +44,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
         uint startDate; // TODO: implement
         uint endDate;
-<<<<<<< HEAD
-        bool isActive; // TODO ENUM: ISACTIVE; WILL BE ACTIVE; IS ENDED
-=======
         Status status;
->>>>>>> e357144386d74aa201bec71ec3e3102693c8fd87
         address[] contributors;
     }
 
