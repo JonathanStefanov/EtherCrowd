@@ -26,7 +26,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
         checkInterval = _checkInterval;
         lastCheck = 0;
     }
-    enum Status { NOT_ACTIVE, ACTIVE, ENDED }
+    enum Status { NOT_STARTED, ACTIVE, ENDED }
 
     struct Project {
         bool initialized;
@@ -94,10 +94,36 @@ contract EtherCrowd is KeeperCompatibleInterface {
         // maybe returning the id of the crowdsale?
     }
 
+    // Modifiers
     modifier projectExist(uint _id) {
         require(
             idToProject[_id].initialized == true,
             "Project does not exist."
+        );
+        _;
+    }
+
+        modifier projectNotStarted(uint _id){
+        require(
+            idToProject[_id].status == Status.NOT_STARTED,
+            "Project must be not started."
+        );
+        _;
+    }
+
+
+    modifier projectActive(uint _id){
+        require(
+            idToProject[_id].status == Status.ACTIVE,
+            "Project is not active."
+        );
+        _;
+    }
+
+    modifier projectEnded(uint _id){
+        require(
+            idToProject[_id].status == Status.ENDED,
+            "Project is not ended."
         );
         _;
     }
@@ -178,14 +204,17 @@ contract EtherCrowd is KeeperCompatibleInterface {
         }
     }
 
-    function refund(Project memory _project) private {
-        for (uint i = 0; i < _project.contributors.length; i++) {
-            address contributorAddress = _project.contributors[i];
-            uint refundAmount = idToBalanceOfContributors[_project.id][
-                contributorAddress
-            ];
 
+    //Should i reset the balance to 0 ?
+    function refund(Project memory _project) private projectActive(_project.id) {
+        for (uint i = 0; i < _project.contributors.length; i++) {
+            //refund
+            address contributorAddress = _project.contributors[i];
+            uint refundAmount = idToBalanceOfContributors[_project.id][contributorAddress];
             payable(contributorAddress).transfer(refundAmount);
+
+            //reset balance
+            idToBalanceOfContributors[_project.id][contributorAddress] = 0;
         }
     }
 
