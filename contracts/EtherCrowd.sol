@@ -262,9 +262,9 @@ contract EtherCrowd is KeeperCompatibleInterface {
     function getInvestedFunds(uint _projectId)
         public
         view
+        projectExist(_projectId)
         returns (uint balance)
     {
-        require(idToProject[_projectId].initialized, "Project does not exist.");
         return idToBalanceOfContributors[_projectId][msg.sender];
     }
 }
