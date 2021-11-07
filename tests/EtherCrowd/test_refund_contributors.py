@@ -1,3 +1,6 @@
+from brownie import accounts, reverts
+import pytest
+
 @pytest.fixture(autouse=True)
 def setup(fn_isolation, ethercrowd, accounts):
     goal_amount = 10
@@ -7,7 +10,7 @@ def setup(fn_isolation, ethercrowd, accounts):
     video_url = "https://myAwesomeVideoUrl.org"
     thumbnail_url = "https://myAwesomeThumbnailUrl.org"
     description = "My awesome description"
-    end_date = 3600
+    end_date = 1
 
     ethercrowd.createProject(goal_amount, title, slogan, website_url,
                              video_url, thumbnail_url, description, end_date, {
@@ -25,14 +28,26 @@ def test_refund_contributors(ethercrowd, accounts):
     # Init
     projectId = 0
     nbOfContributors = 4
-    expected = 0
+    #project = ethercrowd.getProject(projectId)
+    expected = [0,0,0,0]
 
     # Call
-    ethercrowd.refund(0)
-    result = True
-     
-    # add a for loop for()
-    ethercrowd.getInvestedFunds(projectId, {'from': account})  # montant qui a ete mit
+    ethercrowd.refund(projectId)
+
+    result = []
+    for i in range(nbOfContributors):
+        investedAmounts = ethercrowd.getInvestedFunds(projectId, {'from': accounts[i]})
+        result.append(investedAmounts)
 
     # Assert
     assert expected == result
+
+
+#Est ce prcq je serais en train de modifier la copie du projet et pas le projet lui meme ?
+'''
+E       assert [0, 0, 0, 0] == [5, 10, 15, 20]
+E         At index 0 diff: 0 != 5
+E         Use -v to get the full diff
+
+tests\EtherCrowd\test_refund_contributors.py:43: AssertionError
+'''
