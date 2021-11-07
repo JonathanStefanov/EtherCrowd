@@ -255,6 +255,12 @@ contract EtherCrowd is KeeperCompatibleInterface {
     function fund(uint _projectId) external payable projectExist(_projectId) projectActive(_projectId){
         require(msg.value > 0, "No value sent.");
 
+        // Project modification
+        Project storage project = idToProject[_projectId];
+        project.contributors.push(msg.sender); 
+        project.currentAmount += msg.value;
+
+        // Contributor modification
         addressToListOfProjects[msg.sender].push(_projectId);
         idToBalanceOfContributors[_projectId][msg.sender] += msg.value;
     }
