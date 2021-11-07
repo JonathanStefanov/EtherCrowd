@@ -24,37 +24,67 @@ def setup(fn_isolation, ethercrowd, accounts):
 def test_fund_existing_project(ethercrowd, accounts):
     # Init
     projectId = 0
-    expected = 10  # montant qui va etre mit
+    expectedProjectFunds = 10
+    expectedContributorAdded = True
+
+    expectedInvestedFunds = 10
+    expectedFundedProject = [projectId]
+
 
     # Call
     ethercrowd.fund(0, {'from': accounts[0], "value": 10})
-    result = ethercrowd.getInvestedFunds(projectId)  # montant qui a ete mit
 
-    # Assert
-    assert expected == result
+    resultProjectFunds = ethercrowd.getProjectFunds(projectId)
+
+    # NOT WORKING WHY ???
+    #contributors = ethercrowd.getProjectContributors[0]
+    #resultContributorAdded = accounts[0].address == contributors[0]
+
+    resultFundedProject = ethercrowd.getFundedProject()
+    resultInvestedFunds = ethercrowd.getInvestedFunds(projectId)
+
+
+    # Asserts
+    assert expectedProjectFunds == resultProjectFunds
+    #assert expectedContributorAdded == resultContributorAdded
+    assert expectedFundedProject == resultFundedProject
+    assert expectedInvestedFunds == resultInvestedFunds 
     
 
 
 def test_fund_existing_project_no_money(ethercrowd, accounts):
     # Init
     projectId = 0
-    expected = 0  # = #montant qui va etre mit
+    expectedInvestedFunds = 0
+    expectedProjectFunds = 0
+    expectedContributorAdded = False
+    expectedFundedProject = []
 
     # Call
     with reverts("No value sent."):
         ethercrowd.fund(projectId, {'from': accounts[0], "value": 0})
+    
+    resultProjectFunds = ethercrowd.getProjectFunds(projectId)
 
-    # resultInvestedCrowdsaleList # verifie si la crowd a été ajouté dans ses crowds investit
-    result = ethercrowd.getInvestedFunds(projectId)  # = #montant qui a ete mit
+    # NOT WORKING WHY ???
+    #contributors = ethercrowd.getProjectContributors[0]
+    #resultContributorAdded = accounts[0].address == contributors[0]
 
-    # Assert
-    assert expected == result
+    resultFundedProject = ethercrowd.getFundedProject()
+    resultInvestedFunds = ethercrowd.getInvestedFunds(projectId)
+
+    # Asserts
+    assert expectedProjectFunds == resultProjectFunds
+    #assert expectedContributorAdded == resultContributorAdded
+    assert expectedFundedProject == resultFundedProject
+    assert expectedInvestedFunds == resultInvestedFunds 
+
 
 
 def test_fund_non_existing_project(ethercrowd, accounts):
     # Init
     projectId = 404
-    expected = 0  # = #montant qui va etre mit
+    expected = 0
 
     # Call
     with reverts("Project does not exist."):
