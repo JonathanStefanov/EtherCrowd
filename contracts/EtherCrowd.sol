@@ -273,4 +273,9 @@ contract EtherCrowd is KeeperCompatibleInterface {
     {
         return idToBalanceOfContributors[_projectId][msg.sender];
     }
+
+    function getProjectFunds(uint _projectId) public view projectExist(_projectId){
+        Project memory project = idToProject[i];
+        return project.currentAmount;
+    }
 }
