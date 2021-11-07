@@ -103,7 +103,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
         _;
     }
 
-        modifier projectNotStarted(uint _id){
+    modifier projectNotStarted(uint _id){
         require(
             idToProject[_id].status == Status.NOT_STARTED,
             "Project must be not started."
@@ -192,16 +192,14 @@ contract EtherCrowd is KeeperCompatibleInterface {
         }
     }
 
-    function endProject(Project memory _project) private {
-        // TODO: Emit events
-        // Project has ended, refund the money or give it to the owner according to the situation
+    //doit etre appelé une seule fois quand (le temps est écoulé + que le projet est actif)
+    function endProject(Project memory _project) private projectActive(_project.id) {
         if (_project.currentAmount >= _project.goalAmount) {
-            // The crowdsale is successful, we can transfer the money to the owner
             payable(_project.owner).transfer(_project.currentAmount);
         } else {
-            // refunding the investors
             refund(_project);
         }
+        _project.status = Status.ENDED;
     }
 
 
