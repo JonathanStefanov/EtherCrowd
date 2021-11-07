@@ -25,3 +25,8 @@ EtherCrowd is still in development, here is an overview of what has been done an
 ## How can I use it?
 
 EtherCrowd has a client coded in javascript that enables the users to direcly interact with the smart contract through a graphical interface.
+
+## Developpers
+[Ayoub Layahoui](https://github.com/AyoubLahyaoui)
+
+[Jonathan Stefanov](https://github.com/JonathanStefanov)
