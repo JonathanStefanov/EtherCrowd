@@ -26,7 +26,12 @@ contract EtherCrowd is KeeperCompatibleInterface {
         checkInterval = _checkInterval;
         lastCheck = 0;
     }
-    enum Status { NOT_ACTIVE, ACTIVE, ENDED }
+
+    enum Status {
+        NOT_STARTED,
+        ACTIVE,
+        ENDED
+    }
 
     struct Project {
         bool initialized;
@@ -94,10 +99,44 @@ contract EtherCrowd is KeeperCompatibleInterface {
         // maybe returning the id of the crowdsale?
     }
 
+    // Modifiers
     modifier projectExist(uint _id) {
         require(
             idToProject[_id].initialized == true,
             "Project does not exist."
+        );
+        _;
+    }
+
+    modifier projectNotStarted(uint _id) {
+        require(
+            idToProject[_id].status == Status.NOT_STARTED,
+            "Project must be not started."
+        );
+        _;
+    }
+
+    modifier projectActive(uint _id) {
+        require(
+            idToProject[_id].status == Status.ACTIVE,
+            "Project is not active."
+        );
+        _;
+    }
+
+    modifier projectEnded(uint _id) {
+        require(
+            idToProject[_id].status == Status.ENDED,
+            "Project is not ended."
+        );
+        _;
+    }
+
+    //If we have this modifier should we need the previous one ???
+    modifier projectExpired(uint _id) {
+        require(
+            idToProject[_id].endDate <= block.timestamp,
+            "Project is not yet expired."
         );
         _;
     }
@@ -107,12 +146,16 @@ contract EtherCrowd is KeeperCompatibleInterface {
      * @param _id The id of the project.
      * @return project The project.
      */
-    function getProject(uint _id) external view projectExist(_id) returns (Project memory) {
+    function getProject(uint _id)
+        external
+        view
+        projectExist(_id)
+        returns (Project memory)
+    {
         Project memory project = idToProject[_id];
 
         return (project);
     }
-
 
     //TODO Maybe return only active and not started project.
     /**
@@ -157,35 +200,51 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
     function checkProjects() private {
         for (uint i = 0; i < nbOfProjects; i++) {
-            // looping through all the crowdsales
             Project memory project = idToProject[i];
-            if (block.timestamp >= project.endDate) {
-                // It means the crowdsale has ended
+
+            // Project ended
+            if (
+                project.status == Status.ACTIVE &&
+                block.timestamp >= project.endDate
+            ) {
                 endProject(project);
             }
         }
     }
 
-    function endProject(Project memory _project) private {
-        // TODO: Emit events
-        // Project has ended, refund the money or give it to the owner according to the situation
+    function endProject(Project memory _project)
+        private
+        projectExist(_project.id)
+        projectActive(_project.id)
+        projectExpired(_project.id)
+    {
+        // Goal reached
         if (_project.currentAmount >= _project.goalAmount) {
-            // The crowdsale is successful, we can transfer the money to the owner
             payable(_project.owner).transfer(_project.currentAmount);
         } else {
-            // refunding the investors
             refund(_project);
         }
+
+        // End the project
+        _project.status = Status.ENDED;
     }
 
-    function refund(Project memory _project) private {
+    function refund(Project memory _project)
+        private
+        projectExist(_project.id)
+        projectActive(_project.id)
+        projectExpired(_project.id)
+    {
         for (uint i = 0; i < _project.contributors.length; i++) {
+            // Refund
             address contributorAddress = _project.contributors[i];
             uint refundAmount = idToBalanceOfContributors[_project.id][
                 contributorAddress
             ];
-
             payable(contributorAddress).transfer(refundAmount);
+
+            // Reset balance
+            idToBalanceOfContributors[_project.id][contributorAddress] -= refundAmount;
         }
     }
 
@@ -193,21 +252,45 @@ contract EtherCrowd is KeeperCompatibleInterface {
     Function fund, fund a crowd,
     takes a crowdid in parameter
     */
-    function fund(uint _projectId) external payable {
+    function fund(uint _projectId) external payable projectExist(_projectId) projectActive(_projectId){
         require(msg.value > 0, "No value sent.");
-        require(idToProject[_projectId].initialized, "Project does not exist.");
-        require(idToProject[_projectId].status == Status.ACTIVE, "Project is not active");
 
+        // Project modification
+        Project storage project = idToProject[_projectId];
+        project.contributors.push(msg.sender); 
+        project.currentAmount += msg.value;
+
+        // Contributor modification
         addressToListOfProjects[msg.sender].push(_projectId);
         idToBalanceOfContributors[_projectId][msg.sender] += msg.value;
     }
 
+    // Contributor getters
+
     function getInvestedFunds(uint _projectId)
         public
         view
+        projectExist(_projectId)
         returns (uint balance)
     {
-        require(idToProject[_projectId].initialized, "Project does not exist.");
         return idToBalanceOfContributors[_projectId][msg.sender];
+    }
+
+
+    function getContributedProjects() external view returns (uint[] memory) {
+        return addressToListOfProjects[msg.sender];
+    }
+
+
+    // Project getters
+
+    function getProjectFunds(uint _projectId) public view projectExist(_projectId) returns(uint) {
+        Project memory project = idToProject[_projectId];
+        return project.currentAmount;
+    }
+
+    function getProjectContributors(uint _projectId) public view projectExist(_projectId) returns(address[] memory){
+        Project memory project = idToProject[_projectId];
+        return project.contributors;
     }
 }
