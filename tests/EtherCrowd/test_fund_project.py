@@ -28,7 +28,7 @@ def test_fund_existing_project(ethercrowd, accounts):
     expectedContributorAdded = True
 
     expectedInvestedFunds = 10
-    expectedFundedProject = [projectId]
+    expectedContributedProject = [projectId]
 
 
     # Call
@@ -40,14 +40,14 @@ def test_fund_existing_project(ethercrowd, accounts):
     #contributors = ethercrowd.getProjectContributors[0]
     #resultContributorAdded = accounts[0].address == contributors[0]
 
-    resultFundedProject = ethercrowd.getFundedProject()
+    resultContributedProject = ethercrowd.getContributedProject()
     resultInvestedFunds = ethercrowd.getInvestedFunds(projectId)
 
 
     # Asserts
     assert expectedProjectFunds == resultProjectFunds
     #assert expectedContributorAdded == resultContributorAdded
-    assert expectedFundedProject == resultFundedProject
+    assert expectedContributedProject == resultContributedProject
     assert expectedInvestedFunds == resultInvestedFunds 
     
 
@@ -58,7 +58,7 @@ def test_fund_existing_project_no_money(ethercrowd, accounts):
     expectedInvestedFunds = 0
     expectedProjectFunds = 0
     expectedContributorAdded = False
-    expectedFundedProject = []
+    expectedContributedProject = []
 
     # Call
     with reverts("No value sent."):
@@ -70,13 +70,13 @@ def test_fund_existing_project_no_money(ethercrowd, accounts):
     #contributors = ethercrowd.getProjectContributors[0]
     #resultContributorAdded = accounts[0].address == contributors[0]
 
-    resultFundedProject = ethercrowd.getFundedProject()
+    resultContributedProject = ethercrowd.getContributedProject()
     resultInvestedFunds = ethercrowd.getInvestedFunds(projectId)
 
     # Asserts
     assert expectedProjectFunds == resultProjectFunds
     #assert expectedContributorAdded == resultContributorAdded
-    assert expectedFundedProject == resultFundedProject
+    assert expectedContributedProject == resultContributedProject
     assert expectedInvestedFunds == resultInvestedFunds 
 
 

@@ -1,6 +1,6 @@
 {
   "contracts": {
-    "EtherCrowd": "6139de436bc5c3480b0899bb448ec6d8129a5414"
+    "EtherCrowd": "3dcdb2dd441b6f415409bab295cabf4e3c0b6670"
   },
   "tests": {
     "tests/EtherCrowd/test_create_project.py": {
@@ -11,8 +11,8 @@
       "results": "...",
       "sha1": "a745da4775ba1e55588572755533a893276eef18",
       "txhash": [
-        "a8245794eab64d456e1a27fe5209eea4fb90ef2e",
-        "ed87420cfa96709b0462ea31fd08bd60c9d745eb"
+        "6b1c53dfcc84d7725e0bbd5ad387da3d9f4093b1",
+        "b3c9e07b7270cbabcc46d48c783f6a21f25f2d56"
       ]
     },
     "tests/EtherCrowd/test_fund_project.py": {
@@ -21,10 +21,10 @@
         "EtherCrowd"
       ],
       "results": "...",
-      "sha1": "fc42cfa1bc54938ad4890b62b5e0b2b57f2fbac4",
+      "sha1": "9bf5e30487c83f4975a03189459c2de3f39edf72",
       "txhash": [
-        "05389169002801504184969034bff35f647feeef",
-        "6f8d80baf1458293b91e17b509ed9c2f392d4fa2"
+        "9f71c01a6ee506fa9b2780ceff50e1da1d343967",
+        "ab15a20ebb57bacf242d1daec76d1a277c539872"
       ]
     },
     "tests/EtherCrowd/test_get_project.py": {
@@ -47,59 +47,52 @@
     }
   },
   "tx": {
-    "05389169002801504184969034bff35f647feeef": {
+    "6b1c53dfcc84d7725e0bbd5ad387da3d9f4093b1": {
       "EtherCrowd": {
         "0": [
           [
-            10,
-            11
-          ],
-          [
-            29
+            1,
+            2
           ],
           [
             28
+          ],
+          [
+            27
           ]
         ]
       }
     },
-    "6f8d80baf1458293b91e17b509ed9c2f392d4fa2": {
+    "9f71c01a6ee506fa9b2780ceff50e1da1d343967": {
       "EtherCrowd": {
         "0": [
           [
-            10
+            12
           ],
           [
-            28
+            30
           ],
           []
         ]
       }
     },
-    "a8245794eab64d456e1a27fe5209eea4fb90ef2e": {
+    "ab15a20ebb57bacf242d1daec76d1a277c539872": {
       "EtherCrowd": {
         "0": [
-          [
-            0,
-            1
-          ],
-          [
-            25
-          ],
-          [
-            24
-          ]
+          [],
+          [],
+          []
         ]
       }
     },
-    "ed87420cfa96709b0462ea31fd08bd60c9d745eb": {
+    "b3c9e07b7270cbabcc46d48c783f6a21f25f2d56": {
       "EtherCrowd": {
         "0": [
           [
-            0
+            1
           ],
           [
-            24
+            27
           ],
           []
         ]
