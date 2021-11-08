@@ -277,7 +277,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     }
 
 
-    function getContributedProject() external view returns (uint[] memory) {
+    function getContributedProjects() external view returns (uint[] memory) {
         return addressToListOfProjects[msg.sender];
     }
 
