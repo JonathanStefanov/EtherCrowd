@@ -232,10 +232,10 @@ contract EtherCrowd is KeeperCompatibleInterface, ReentrancyGuard {
     }
 
     function refund(uint _projectId)
-        public /*TODO: set to internal when testing is finished !*/
+        private
         projectExist(_projectId)
         projectActive(_projectId)
-        /*projectExpired(_projectId)*/
+        projectExpired(_projectId)
         nonReentrant
     {
         Project storage _project = idToProject[_projectId];
