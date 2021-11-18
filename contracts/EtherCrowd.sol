@@ -1,7 +1,8 @@
 pragma solidity ^0.8.0;
 import "../interfaces/KeeperCompatibleInterface.sol";
+import "./ReentrancyGuard.sol";
 
-contract EtherCrowd is KeeperCompatibleInterface {
+contract EtherCrowd is KeeperCompatibleInterface, ReentrancyGuard {
     uint256 public nbOfProjects;
     address admin;
 
@@ -200,53 +201,60 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
     function checkProjects() private {
         for (uint i = 0; i < nbOfProjects; i++) {
-            Project memory project = idToProject[i];
+            Project storage project = idToProject[i];
 
             // Project ended
             if (
                 project.status == Status.ACTIVE &&
                 block.timestamp >= project.endDate
             ) {
-                endProject(project);
+                endProject(project.id);
             }
         }
     }
 
-    function endProject(Project memory _project)
+    function endProject(uint _projectId)
         private
-        projectExist(_project.id)
-        projectActive(_project.id)
-        projectExpired(_project.id)
+        projectExist(_projectId)
+        projectActive(_projectId)
+        projectExpired(_projectId)
     {
+        Project storage _project = idToProject[_projectId];
         // Goal reached
         if (_project.currentAmount >= _project.goalAmount) {
             payable(_project.owner).transfer(_project.currentAmount);
         } else {
-            refund(_project);
+            refund(_project.id);
         }
 
         // End the project
         _project.status = Status.ENDED;
     }
 
-    function refund(Project memory _project)
-        public
-        projectExist(_project.id)
-        projectActive(_project.id)
-        projectExpired(_project.id)
+    function refund(uint _projectId)
+        public /*TODO: set to internal when testing is finished !*/
+        projectExist(_projectId)
+        projectActive(_projectId)
+        /*projectExpired(_projectId)*/
+        nonReentrant
     {
+        Project storage _project = idToProject[_projectId];
+
         for (uint i = 0; i < _project.contributors.length; i++) {
             // Refund
             address contributorAddress = _project.contributors[i];
             uint refundAmount = idToBalanceOfContributors[_project.id][
                 contributorAddress
             ];
-            payable(contributorAddress).transfer(refundAmount);
 
             // Reset balance
             idToBalanceOfContributors[_project.id][
                 contributorAddress
             ] -= refundAmount;
+
+            payable(contributorAddress).transfer(refundAmount);
+
+           
         }
     }
 
@@ -264,6 +272,8 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
         addressToListOfProjects[msg.sender].push(_projectId);
         idToBalanceOfContributors[_projectId][msg.sender] += msg.value;
+        // Adding user to adress of contibutors of the project when fund
+        idToProject[_projectId].contributors.push(msg.sender);
     }
 
     function getInvestedFunds(uint256 _projectId)

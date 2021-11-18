@@ -33,7 +33,7 @@ def setup(fn_isolation, ethercrowd, accounts):
 def test_fund_existing_project(ethercrowd, accounts):
     # Init
     projectId = 0
-    expected = 10  # montant qui va etre mit
+    expected = 10  # ammount that will be invested inthe project
 
     # Call
     ethercrowd.fund(0, {'from': accounts[0], "value": 10})
