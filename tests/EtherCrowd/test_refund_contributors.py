@@ -42,12 +42,3 @@ def test_refund_contributors(ethercrowd, accounts):
     # Assert
     assert expected == result
 
-
-#Est ce prcq je serais en train de modifier la copie du projet et pas le projet lui meme ?
-'''
-E       assert [0, 0, 0, 0] == [5, 10, 15, 20]
-E         At index 0 diff: 0 != 5
-E         Use -v to get the full diff
-
-tests\EtherCrowd\test_refund_contributors.py:43: AssertionError
-'''
