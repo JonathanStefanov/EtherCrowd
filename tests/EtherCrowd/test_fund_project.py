@@ -40,8 +40,8 @@ def test_fund_existing_project(ethercrowd, accounts):
     #contributors = ethercrowd.getProjectContributors[0]
     #resultContributorAdded = accounts[0].address == contributors[0]
 
-    resultContributedProject = ethercrowd.getContributedProject()
-    resultInvestedFunds = ethercrowd.getInvestedFunds(projectId)
+    resultContributedProject = ethercrowd.getContributedProjects({'from': accounts[0]})
+    resultInvestedFunds = ethercrowd.getInvestedFunds(projectId,{'from': accounts[0]})
 
 
     # Asserts
@@ -70,8 +70,8 @@ def test_fund_existing_project_no_money(ethercrowd, accounts):
     #contributors = ethercrowd.getProjectContributors[0]
     #resultContributorAdded = accounts[0].address == contributors[0]
 
-    resultContributedProject = ethercrowd.getContributedProject()
-    resultInvestedFunds = ethercrowd.getInvestedFunds(projectId)
+    resultContributedProject = ethercrowd.getContributedProjects({'from': accounts[0]})
+    resultInvestedFunds = ethercrowd.getInvestedFunds(projectId,{'from': accounts[0]})
 
     # Asserts
     assert expectedProjectFunds == resultProjectFunds
