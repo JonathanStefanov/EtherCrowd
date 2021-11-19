@@ -17,8 +17,10 @@ def setup(fn_isolation, ethercrowd, accounts):
                                  'from': accounts[0],
                                  "value": 1
                              })
-    
+    print("BALANCE BEFORE " + str(accounts[0].balance()))
     ethercrowd.fund(0, {'from': accounts[0], "value": 5})
+    print(accounts[0].balance())
+
     ethercrowd.fund(0, {'from': accounts[1], "value": 10})
     ethercrowd.fund(0, {'from': accounts[2], "value": 15})
     ethercrowd.fund(0, {'from': accounts[3], "value": 20})
@@ -30,6 +32,7 @@ def test_refund_contributors(ethercrowd, accounts):
     nbOfContributors = 4
     #project = ethercrowd.getProject(projectId)
     expected = [0,0,0,0]
+
 
     # Call
     ethercrowd.refund(projectId)
