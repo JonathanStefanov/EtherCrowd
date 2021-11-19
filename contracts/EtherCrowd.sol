@@ -207,44 +207,47 @@ contract EtherCrowd is KeeperCompatibleInterface {
                 project.status == Status.ACTIVE &&
                 block.timestamp >= project.endDate
             ) {
-                endProject(project);
+                endProject(i);
             }
         }
     }
 
-    function endProject(Project memory _project)
+    function endProject(uint _projectId)
         private
-        projectExist(_project.id)
-        projectActive(_project.id)
-        projectExpired(_project.id)
+        projectExist(_projectId)
+        projectActive(_projectId)
+        projectExpired(_projectId)
     {
+        Project storage project = idToProject[_projectId];
+
         // Goal reached
-        if (_project.currentAmount >= _project.goalAmount) {
-            payable(_project.owner).transfer(_project.currentAmount);
+        if (project.currentAmount >= project.goalAmount) {
+            payable(project.owner).transfer(project.currentAmount);
         } else {
-            refund(_project);
+            refund(_projectId);
         }
 
         // End the project
-        _project.status = Status.ENDED;
+        project.status = Status.ENDED;
     }
 
-    function refund(Project memory _project)
-        private
-        projectExist(_project.id)
-        projectActive(_project.id)
-        projectExpired(_project.id)
+    function refund(uint _projectId)
+        public
+        projectExist(_projectId)
+        projectActive(_projectId)
+        /*projectExpired(_projectId)*/
     {
-        for (uint i = 0; i < _project.contributors.length; i++) {
+        Project storage project = idToProject[_projectId];
+
+        for (uint i = 0; i < project.contributors.length; i++) {
             // Refund
-            address contributorAddress = _project.contributors[i];
-            uint refundAmount = idToBalanceOfContributors[_project.id][
+            address contributorAddress = project.contributors[i];
+            uint refundAmount = idToBalanceOfContributors[project.id][
                 contributorAddress
             ];
-            payable(contributorAddress).transfer(refundAmount);
-
             // Reset balance
-            idToBalanceOfContributors[_project.id][contributorAddress] -= refundAmount;
+            idToBalanceOfContributors[project.id][contributorAddress] -= refundAmount;
+            payable(contributorAddress).transfer(refundAmount);
         }
     }
 
