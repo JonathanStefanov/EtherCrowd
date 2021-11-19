@@ -235,7 +235,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
         private
         projectExist(_projectId)
         projectActive(_projectId)
-        /*projectExpired(_projectId)*/
+        projectExpired(_projectId)
     {
         Project storage project = idToProject[_projectId];
 
@@ -251,26 +251,6 @@ contract EtherCrowd is KeeperCompatibleInterface {
         }
     }
 
-    function refund(uint _id)
-        public
-        projectExist(_id)
-        projectActive(_id)
-        projectExpired(_id)
-    {
-        Project memory project = idToProject[_id];
-
-        for (uint i = 0; i < project.contributors.length; i++) {
-            // Refund
-            address contributorAddress = project.contributors[i];
-            uint refundAmount = idToBalanceOfContributors[project.id][
-                contributorAddress
-            ];
-            payable(contributorAddress).transfer(refundAmount);
-
-            // Reset balance
-            idToBalanceOfContributors[project.id][contributorAddress] -= refundAmount;
-        }
-    }
 
     /** 
     Function fund, fund a crowd,
