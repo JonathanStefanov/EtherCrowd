@@ -1,7 +1,8 @@
 pragma solidity ^0.8.0;
 import "../interfaces/KeeperCompatibleInterface.sol";
+import "./ReentrancyGuard.sol";
 
-contract EtherCrowd is KeeperCompatibleInterface {
+contract EtherCrowd is KeeperCompatibleInterface, ReentrancyGuard {
     uint256 public nbOfProjects;
     address admin;
 
@@ -191,7 +192,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
 
     function performUpkeep(
         bytes calldata /*performData*/
-    ) external override {
+    ) external override nonReentrant {
         lastCheck = block.timestamp;
         checkProjects();
 
@@ -231,8 +232,13 @@ contract EtherCrowd is KeeperCompatibleInterface {
         project.status = Status.ENDED;
     }
 
+    function payout(address _addr){
+
+    }
+
     function refund(uint _projectId)
         private
+        nonReentrant
         projectExist(_projectId)
         projectActive(_projectId)
         projectExpired(_projectId)
