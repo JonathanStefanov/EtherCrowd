@@ -101,6 +101,12 @@ contract EtherCrowd is KeeperCompatibleInterface, ReentrancyGuard {
     }
 
     // Modifiers
+
+    modifier moneySent() {
+        require(msg.value > 0, "No value sent.");
+        _;
+    }
+
     modifier projectExist(uint _id) {
         require(
             idToProject[_id].initialized == true,
@@ -138,6 +144,14 @@ contract EtherCrowd is KeeperCompatibleInterface, ReentrancyGuard {
         require(
             idToProject[_id].endDate <= block.timestamp,
             "Project is not yet expired."
+        );
+        _;
+    }
+
+    modifier projectNotExpired(uint _id) {
+        require(
+            idToProject[_id].endDate > block.timestamp,
+            "Project is expired."
         );
         _;
     }
@@ -259,8 +273,14 @@ contract EtherCrowd is KeeperCompatibleInterface, ReentrancyGuard {
     Function fund, fund a crowd,
     takes a crowdid in parameter
     */
-    function fund(uint _projectId) external payable projectExist(_projectId) projectActive(_projectId){
-        require(msg.value > 0, "No value sent.");
+    function fund(uint _projectId)
+        external 
+        payable 
+        moneySent()
+        projectExist(_projectId) 
+        projectActive(_projectId) 
+        projectNotExpired(_projectId) 
+    {
 
         // Project modification
         Project storage project = idToProject[_projectId];
