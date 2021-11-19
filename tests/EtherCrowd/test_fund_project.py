@@ -39,8 +39,22 @@ def test_fund_existing_project(ethercrowd, accounts):
     ethercrowd.fund(0, {'from': accounts[0], "value": 10})
     result = ethercrowd.getInvestedFunds(projectId)  # montant qui a ete mit
 
-    # Assert
-    assert expected == result
+
+    resultProjectFunds = ethercrowd.getProjectFunds(projectId)
+
+    # NOT WORKING WHY ???
+    #contributors = ethercrowd.getProjectContributors[0]
+    #resultContributorAdded = accounts[0].address == contributors[0]
+
+    resultContributedProject = ethercrowd.getContributedProjects({'from': accounts[0]})
+    resultInvestedFunds = ethercrowd.getInvestedFunds(projectId,{'from': accounts[0]})
+
+
+    # Asserts
+    assert expectedProjectFunds == resultProjectFunds
+    #assert expectedContributorAdded == resultContributorAdded
+    assert expectedContributedProject == resultContributedProject
+    assert expectedInvestedFunds == resultInvestedFunds 
     
 
 
@@ -52,6 +66,16 @@ def test_fund_existing_project_no_money(ethercrowd, accounts):
     # Call
     with reverts("No value sent."):
         ethercrowd.fund(projectId, {'from': accounts[0], "value": 0})
+
+    
+    resultProjectFunds = ethercrowd.getProjectFunds(projectId)
+
+    # NOT WORKING WHY ???
+    #contributors = ethercrowd.getProjectContributors[0]
+    #resultContributorAdded = accounts[0].address == contributors[0]
+
+    resultContributedProject = ethercrowd.getContributedProjects({'from': accounts[0]})
+    resultInvestedFunds = ethercrowd.getInvestedFunds(projectId,{'from': accounts[0]})
 
     # resultInvestedCrowdsaleList # verifie si la crowd a été ajouté dans ses crowds investit
     result = ethercrowd.getInvestedFunds(projectId)  # = #montant qui a ete mit

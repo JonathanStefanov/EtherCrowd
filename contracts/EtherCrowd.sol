@@ -2,24 +2,24 @@ pragma solidity ^0.8.0;
 import "../interfaces/KeeperCompatibleInterface.sol";
 
 contract EtherCrowd is KeeperCompatibleInterface {
-    uint public nbOfProjects;
+    uint256 public nbOfProjects;
     address admin;
 
-    uint public checkInterval;
-    uint public lastCheck;
+    uint256 public checkInterval;
+    uint256 public lastCheck;
 
-    mapping(uint => Project) private idToProject;
+    mapping(uint256 => Project) private idToProject;
 
     // crowdsale id,  user address to amount invested by user address TODO: balance of function
-    mapping(uint => mapping(address => uint))
+    mapping(uint256 => mapping(address => uint256))
         private idToBalanceOfContributors;
 
     // user address to list of crowdsales ids he is invested in
-    mapping(address => uint[]) private addressToListOfProjects;
+    mapping(address => uint256[]) private addressToListOfProjects;
 
-    uint public fee; //TODO: implement change fe function
+    uint256 public fee; //TODO: implement change fe function
 
-    constructor(uint _fee, uint _checkInterval) {
+    constructor(uint256 _fee, uint256 _checkInterval) {
         nbOfProjects = 0;
         admin = msg.sender;
         fee = _fee;
@@ -36,15 +36,15 @@ contract EtherCrowd is KeeperCompatibleInterface {
     struct Project {
         bool initialized;
         address owner;
-        uint id;
+        uint256 id;
         string title;
         string slogan;
         string description;
         string websiteUrl;
         string thumbnailUrl;
         string videoUrl;
-        uint currentAmount;
-        uint goalAmount;
+        uint256 currentAmount;
+        uint256 goalAmount;
         //TODO implement themes
 
         uint startDate; // TODO: implement
@@ -54,7 +54,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     }
 
     function createProject(
-        uint _goalAmount,
+        uint256 _goalAmount,
         string memory _title,
         string memory _slogan,
         string memory _websiteUrl,
@@ -62,7 +62,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
         string memory _thumbnailUrl,
         string memory _description,
         //  no need to specify start date, it is the time at which the user calls the function
-        uint _endDate
+        uint256 _endDate
     ) external payable {
         require(_goalAmount > 0, "Goal amount must be greater than zero.");
         require(_endDate > 0, "End date has to be after start date.");
@@ -165,7 +165,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     function getProjects() external view returns (Project[] memory) {
         Project[] memory projects = new Project[](nbOfProjects);
 
-        for (uint i = 0; i < nbOfProjects; i++) {
+        for (uint256 i = 0; i < nbOfProjects; i++) {
             projects[i] = idToProject[i];
         }
         return projects;
@@ -248,6 +248,27 @@ contract EtherCrowd is KeeperCompatibleInterface {
             // Reset balance
             idToBalanceOfContributors[project.id][contributorAddress] -= refundAmount;
             payable(contributorAddress).transfer(refundAmount);
+        }
+    }
+
+    function refund(uint _id)
+        public
+        projectExist(_id)
+        projectActive(_id)
+        projectExpired(_id)
+    {
+        Project memory project = idToProject[_id];
+
+        for (uint i = 0; i < project.contributors.length; i++) {
+            // Refund
+            address contributorAddress = project.contributors[i];
+            uint refundAmount = idToBalanceOfContributors[project.id][
+                contributorAddress
+            ];
+            payable(contributorAddress).transfer(refundAmount);
+
+            // Reset balance
+            idToBalanceOfContributors[project.id][contributorAddress] -= refundAmount;
         }
     }
 

@@ -33,10 +33,8 @@ def test_refund_contributors(ethercrowd, accounts):
     #project = ethercrowd.getProject(projectId)
     expected = [0,0,0,0]
 
-    project = ethercrowd.getProject(projectId)
 
-
-
+    # Call
     ethercrowd.refund(projectId)
 
     result = []
@@ -46,3 +44,4 @@ def test_refund_contributors(ethercrowd, accounts):
 
     # Assert
     assert expected == result
+
