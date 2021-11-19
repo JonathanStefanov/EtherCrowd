@@ -232,7 +232,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     }
 
     function refund(uint _projectId)
-        public
+        private
         projectExist(_projectId)
         projectActive(_projectId)
         /*projectExpired(_projectId)*/
