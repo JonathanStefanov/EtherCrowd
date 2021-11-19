@@ -141,6 +141,14 @@ contract EtherCrowd is KeeperCompatibleInterface {
         _;
     }
 
+    modifier projectNotExpired(uint _id) {
+        require(
+            idToProject[_id].endDate > block.timestamp,
+            "Project is expired."
+        );
+        _;
+    }
+
     /**
      * @dev Gets the project of the given id.
      * @param _id The id of the project.
