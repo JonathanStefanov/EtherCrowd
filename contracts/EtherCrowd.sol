@@ -264,7 +264,7 @@ contract EtherCrowd is KeeperCompatibleInterface {
     Function fund, fund a crowd,
     takes a crowdid in parameter
     */
-    function fund(uint _projectId) external payable projectExist(_projectId) projectActive(_projectId){
+    function fund(uint _projectId) external payable projectExist(_projectId) projectActive(_projectId) projectNotExpired(_projectId){
         require(msg.value > 0, "No value sent.");
 
         // Project modification
