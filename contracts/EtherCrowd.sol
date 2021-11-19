@@ -232,9 +232,6 @@ contract EtherCrowd is KeeperCompatibleInterface, ReentrancyGuard {
         project.status = Status.ENDED;
     }
 
-    function payout(address _addr){
-
-    }
 
     function refund(uint _projectId)
         private
